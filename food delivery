@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickBite - Food Delivery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #ff5722; /* Deep Orange */
+            --secondary-color: #4CAF50; /* Green */
+            --text-dark: #333;
+            --text-light: #f8f8f8;
+            --bg-light: #f9f9f9;
+            --bg-dark: #2c3e50; /* Dark Blue Grey */
+            --border-color: #e0e0e0;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px var(--shadow-medium);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ffeb3b; /* Yellow accent on hover */
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            flex-grow: 1; /* Allows main content to take available space */
+        }
+
+        h2 {
+            font-family: 'Roboto', sans-serif;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding-bottom: 40px;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px var(--shadow-medium);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .item-details {
+            padding: 20px;
+            flex-grow: 1; /* Push button to bottom */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-details h3 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.4em;
+            color: var(--text-dark);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .item-details p {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .item-price {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart-btn {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            width: 100%; /* Full width button */
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #4CAF50; /* Slightly darker green */
+        }
+
+        /* Cart Section */
+        .cart-section {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .cart-section h2 {
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        #cart-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border-color);
+            font-size: 1.1em;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-name {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .cart-summary {
+            text-align: right;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .cart-total {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .place-order-btn {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-top: 25px;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .place-order-btn:hover {
+            background-color: #e64a19; /* Darker orange */
+            transform: translateY(-2px);
+        }
+
+        .place-order-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Empty Cart Message */
+        #empty-cart-message {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            h2 {
+                font-size: 2em;
+            }
+            .menu-grid {
+                grid-template-columns: 1fr; /* Single column on small screens */
+            }
+            .menu-item {
+                margin: 0 auto;
+                max-width: 350px;
+            }
+            main {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <a href="#" class="logo">QuickBite</a>
+            <nav>
+                <ul>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#cart-section">Cart</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="menu">
+            <h2>Our Delicious Menu</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <img src="https://via.placeholder.com/300x180/FFC107/FFFFFF?text=Burger" alt="Classic Burger">
+                    <div class="item-details">
+                        <h3>Classic Burger</h3>
+                        <p>Juicy beef patty, fresh lettuce, tomato, cheese, and our special sauce.</p>
+                        <div class="item-price">₹250</div>
+                        <button class="add-to-cart-btn" data-name="Classic Burger" data-price="250">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://via.placeholder.com/300x180/8BC34A/FFFFFF?text=Pizza" alt="Pepperoni Pizza">
+                    <div class="item-details">
+                        <h3>Pepperoni Pizza</h3>
+                        <p>Crispy crust, rich tomato sauce, mozzarella, and spicy pepperoni.</p>
+                        <div class="item-price">₹400</div>
+                        <button class="add-to-cart-btn" data-name="Pepperoni Pizza" data-price="400">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://via.placeholder.com/300x180/03A9F4/FFFFFF?text=Pasta" alt="Creamy Pasta">
+                    <div class="item-details">
+                        <h3>Creamy Alfredo Pasta</h3>
+                        <p>Fettuccine pasta tossed in a rich, creamy Alfredo sauce with herbs.</p>
+                        <div class="item-price">₹320</div>
+                        <button class="add-to-cart-btn" data-name="Creamy Alfredo Pasta" data-price="320">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://via.placeholder.com/300x180/E91E63/FFFFFF?text=Salad" alt="Fresh Garden Salad">
+                    <div class="item-details">
+                        <h3>Fresh Garden Salad</h3>
+                        <p>Mixed greens, cherry tomatoes, cucumber, bell peppers with vinaigrette.</p>
+                        <div class="item-price">₹180</div>
+                        <button class="add-to-cart-btn" data-name="Fresh Garden Salad" data-price="180">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://via.placeholder.com/300x180/FF9800/FFFFFF?text=Fries" alt="Crispy Fries">
+                    <div class="item-details">
+                        <h3>Crispy French Fries</h3>
+                        <p>Golden, crispy French fries, perfectly salted.</p>
+                        <div class="item-price">₹100</div>
+                        <button class="add-to-cart-btn" data-name="Crispy French Fries" data-price="100">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://via.placeholder.com/300x180/673AB7/FFFFFF?text=Drink" alt="Cola">
+                    <div class="item-details">
+                        <h3>Refreshing Cola</h3>
+                        <p>Chilled soft drink to quench your thirst.</p>
+                        <div class="item-price">₹80</div>
+                        <button class="add-to-cart-btn" data-name="Refreshing Cola" data-price="80">Add to Cart</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="cart-section" class="cart-section">
+            <h2>Your Cart</h2>
+            <ul id="cart-items">
+                </ul>
+            <p id="empty-cart-message">Your cart is empty. Add some delicious food!</p>
+            <div class="cart-summary">
+                Total: <span class="cart-total" id="cart-total-price">₹0</span>
+            </div>
+            <button class="place-order-btn" id="place-order-btn" disabled>Place Order</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 QuickBite. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            const cartItemsList = document.getElementById('cart-items');
+            const cartTotalPriceSpan = document.getElementById('cart-total-price');
+            const emptyCartMessage = document.getElementById('empty-cart-message');
+            const placeOrderBtn = document.getElementById('place-order-btn');
+
+            let cart = []; // Array to store items in the cart
+
+            // Function to update the cart display
+            function updateCartDisplay() {
+                cartItemsList.innerHTML = ''; // Clear current cart display
+                let total = 0;
+
+                if (cart.length === 0) {
+                    emptyCartMessage.style.display = 'block';
+                    placeOrderBtn.disabled = true;
+                } else {
+                    emptyCartMessage.style.display = 'none';
+                    placeOrderBtn.disabled = false;
+                    cart.forEach(item => {
+                        const listItem = document.createElement('li');
+                        listItem.classList.add('cart-item');
+                        listItem.innerHTML = `
+                            <span class="cart-item-name">${item.name}</span>
+                            <span class="cart-item-price">₹${item.price}</span>
+                        `;
+                        cartItemsList.appendChild(listItem);
+                        total += item.price;
+                    });
+                }
+                cartTotalPriceSpan.textContent = `₹${total}`;
+            }
+
+            // Add event listeners to "Add to Cart" buttons
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const itemName = event.target.dataset.name;
+                    const itemPrice = parseInt(event.target.dataset.price);
+
+                    cart.push({ name: itemName, price: itemPrice });
+                    updateCartDisplay();
+                    alert(`${itemName} added to cart!`);
+                });
+            });
+
+            // Event listener for "Place Order" button
+            placeOrderBtn.addEventListener('click', () => {
+                if (cart.length > 0) {
+                    alert('Order Placed Successfully! Your delicious food is on its way!');
+                    // In a real application, you'd send this cart data to a server
+                    cart = []; // Clear cart after order is placed
+                    updateCartDisplay();
+                } else {
+                    alert('Your cart is empty. Please add items before placing an order.');
+                }
+            });
+
+            // Initial cart display update
+            updateCartDisplay();
+        });
+    </script>
+</body>
+</html>
